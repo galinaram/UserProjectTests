@@ -6,8 +6,16 @@ import org.example.service.UserServiceImpl;
 
 import java.time.LocalDateTime;
 
-public class UserControllerImpl implements UserController{
-    private final UserService userService = new UserServiceImpl();
+public class UserControllerImpl implements UserController {
+    private final UserService userService;
+
+    public UserControllerImpl() {
+        this.userService = new UserServiceImpl();
+    }
+
+    public UserControllerImpl(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public User createUser(String name, String email, Integer age, LocalDateTime created_at) {
