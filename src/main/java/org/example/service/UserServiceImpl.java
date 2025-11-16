@@ -9,7 +9,15 @@ import java.time.LocalDateTime;
 
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private final UserDAO userDAO = new UserDAOImpl();
+    private final UserDAO userDAO;
+
+    public UserServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    public UserServiceImpl() {
+        this.userDAO = new UserDAOImpl();
+    }
 
     @Override
     public User createUser(String name, String email, Integer age, LocalDateTime createdAt) {
@@ -21,13 +29,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User readUser(Long id) {
         log.info("Read user: {}", id);
-        return userDAO.findById((long) id).orElse(null);
+        return userDAO.findById(id).orElse(null);
     }
 
     @Override
     public void updateUser(Long id, Integer age) {
         log.info("Update user: {}", id);
-        User user = userDAO.findById((long) id).orElse(null);
+        User user = userDAO.findById(id).orElse(null);
         if (user != null) {
             user.setAge(age);
             userDAO.update(user);
@@ -37,6 +45,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         log.info("Delete user: {}", id);
-        userDAO.delete((long) id);
+        userDAO.delete(id);
     }
 }
